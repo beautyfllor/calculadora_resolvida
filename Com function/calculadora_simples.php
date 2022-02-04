@@ -1,44 +1,18 @@
 <?php
+//include() e require() -> Apenas importa o arquivo no php.
+//include_once() e require()_once -> O servidor realiza uma restrição para importar somente uma vez o arquivo (melhor opção).
+
+//Import do arquivo de configurações de variáveis e constantes
+require_once('modulo/config.php');
+
+//Import do arquivo funções para calculos matemáticos
+require_once('modulo/calculos.php');
+
 //Declaração das variáveis
 $valor1 = (float) 0;
 $valor2 = (float) 0;
 $resultado = (float) 0;
 $opcao = (string) null;
-
-//Criando uma função para calcular as operações matemáticas
-function operacaoMatematica($numero1, $numero2, $operacao) //Não é obrigado usar um nome diferente, foi só para não confundir;
-{
-	//Declaração de variáveis locais da função
-	$num1 = (float) $numero1;
-	$num2 = (float) $numero2;
-	$result = (float) 0;
-	$tipoCalculo = (string) $operacao;
-
-	switch ($tipoCalculo) {
-		case "SOMAR":
-			$result = $num1 + $num2;
-			break;
-		case "SUBTRAIR":
-			$result = $num1 - $num2;
-			break;
-		case "MULTIPLICAR":
-			$result = $num1 * $num2;
-			break;
-		case "DIVIDIR":
-			if ($num2 == 0)
-				echo ('<script> alert("Não é possível realizar divisão onde o valor 2 é igual a 0!"); </script>');
-			else
-				$result = $num1 / $num2;
-			break;
-
-		default:
-			//Processamento caso não entre em nenhuma das opções.
-	}
-
-	$result = round($result, 2);
-
-	return $result;
-}
 
 /*
 	gettype() - verifica qual o tipo de dados de uma variavel
@@ -61,15 +35,15 @@ if (isset($_POST['btncalc'])) {
 
 	//Validação de tratamento de erro para caixa vazia
 	if ($_POST['txtn1'] == "" || $_POST['txtn2'] == "")
-		echo ('<script> alert("Favor preencher todas as caixas!");</script>');
+		echo (ERRO_MSG_CAIXA_VAZIA);
 	else {
 		//Validação de tratamento de erro para rdo sem escolha
 		if (!isset($_POST['rdocalc']))
-			echo ('<script> alert("Favor escolher uma operação válida!");</script>');
+			echo (ERRO_MSG_OPERACAO_CALCULO);
 		else {
 			//Validação para tratamento de erro para dados incorretos
 			if (!is_numeric($valor1) || !is_numeric($valor2))
-				echo ('<script> alert("Não é possível realizar cálculos de dados não numéricos!"); </script>');
+				echo (ERRO_MSG_CARACTER_INVALIDO_TEXTO);
 			else {
 				//Apenas podemos receber o valor do rdo quando ele existir
 				$opcao = strtoupper($_POST['rdocalc']);
